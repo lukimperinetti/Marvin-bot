@@ -1,9 +1,19 @@
-const Discord = require('discord.js'); // Load the discord.js library
-const bot = new Discord.Client({intents: 3276799}); // Create a new bot client and allow it to interact with Discord
-const config = require('./config.js'); // Load the config file
+const Discord = require("discord.js");
+const intents = new Discord.IntentsBitField(3276799); // Create a new intents object
+const bot = new Discord.Client({ intents }); // Create a new bot client and allow it to interact with Discord
+const loadCommands = require("./loaders/loadCommands.js");
+const config = require("./config.js");
 
-bot.login(config.token); // Login to the bot using the token provided in the config file
+bot.commands = new Discord.Collection();
 
-bot.on('ready', () => { // When the bot is ready
-    console.log(`${bot.user.tag} est bien en ligne`); // Log "I am ready!"
+bot.login(config.token);
+loadCommands(bot);
+
+bot.on("messageCreate", async (message) => {
+  if (message.content === "!ping")
+    return bot.commands.get("ping").run(bot, message);
+});
+
+bot.on("ready", () => {
+  console.log(`${bot.user.tag} est bien en ligne`);
 });
