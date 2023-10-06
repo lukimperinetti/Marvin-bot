@@ -11,13 +11,13 @@ This bot is created by students of the MSc-2026 class in Montpellier.
 </ul>
 
 
-First, you will need to create a <bold>config.js</bold> file containing the connection token:
+First, you will need to create a **config.js** file containing the connection token:
 <code>
 const token = "THE_TOKEN";
 module.exports = { token };
 </code>
 
-Once installed, you will need to run <bold>npm install</bold> and install the <bold>discord.js</bold> library.
+Once installed, you will need to run **npm install** and install the **discord.js** library.
 See <a href="https://discord.js.org/#/">The documentation</a>
 
 <hr>
