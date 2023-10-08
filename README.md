@@ -4,10 +4,13 @@ This bot is created by students of the MSc-2026 class in Montpellier.
 
 # Introduction
 
+run it by tiping **nodemon** in the terminal
+
 <h2>What you need</h2>
 <ul>
     <li>discord.js</li>
-    <li>fs</li>
+    <li>nodemon</li>
+    <li>dotenv</li>
 </ul>
 
 
@@ -22,12 +25,12 @@ See <a href="https://discord.js.org/#/">The documentation</a>
 
 <hr>
 
-# Files
+<!-- # Files
 
 <ul>
     <li>Command = Here you have to write all yours commands</li>
     <li>Loader = Here you have to write all yours handlers (commands loader etc...)</li>
-</ul>
+</ul> -->
 
 <hr>
 
