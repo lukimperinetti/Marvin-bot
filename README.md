@@ -32,5 +32,4 @@ See <a href="https://discord.js.org/#/">The documentation</a>
 <hr>
 
 # Contributors
-
 --

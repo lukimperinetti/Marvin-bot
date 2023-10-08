@@ -1,9 +1,11 @@
-const fs = require("fs"); // Load the File System module
-
 /**
- * line 10 : read all files in the commands folder
- * line 11 : return content of the file
+ * Load all commands from the commands folder and add them to the bot's commands collection.
+ * @param {Object} bot - The Discord bot object.
+ * @throws {TypeError} Will throw an error if a command file has an invalid name.
  */
+
+const fs = require("fs"); 
+
 
 module.exports = async (bot) => {
   fs.readdirSync("./commands")
@@ -20,6 +22,6 @@ module.exports = async (bot) => {
         );
       }
       bot.commands.set(command.name, command);
-      console.log(`command ${files} loaded successfully !`);
+      console.log(`command ${files} successfully loaded !`);
     });
 };
