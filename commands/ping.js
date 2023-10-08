@@ -18,6 +18,10 @@ const Discord = require("discord.js");
  */
 module.exports = {
   name: "ping",
+  description: "Check the bot's ping.",
+  permission: 'Aucune',
+  dm: true,
+
   async run(bot, message) {
     await message.channel.send(`🏓 Pong ! \`${bot.ws.ping}\``);
   },
