@@ -36,3 +36,6 @@ See <a href="https://discord.js.org/#/">The documentation</a>
 
 # Contributors
 --
+
+# Quick doc
+When you create a new command, don't forget to run the command file with **node src/register-commands.js** --> as you can see, your command is now choosable in discor when typing "/..."
