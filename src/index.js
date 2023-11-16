@@ -35,7 +35,7 @@ client.on("interactionCreate", async (interaction) => {
   const { commandName } = interaction;
 
   //run every day at 8:00 AM the command "gif" in a specific channel:
-  cron.schedule("0 8 * * *", () => {
+  cron.schedule("0 23 * * *", () => { // pour 8h en france ?
     // if (commandName === "gif") {
       const url = `https://tenor.googleapis.com/v2/search?q=bonjour&key=${process.env.TENOR_API_KEY}&limit=8`;
 
