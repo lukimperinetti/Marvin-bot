@@ -1,6 +1,7 @@
 require("dotenv").config();
-const { Client, IntentsBitField } = require("discord.js");
+const { Client, IntentsBitField, TextChannel } = require("discord.js");
 const https = require("https");
+const cron = require("node-cron");
 
 /**
  * The bitfield representing the intents the client is using.
@@ -20,7 +21,7 @@ const client = new Client({
 });
 
 client.on("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag}`);
 });
 
 client.on("messageCreate", (message) => {
@@ -30,29 +31,45 @@ client.on("messageCreate", (message) => {
 });
 
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
+  if (!interaction.isCommand()) return;
+  const { commandName } = interaction;
 
-  console.log(interaction.commandName);
-  const https = require("https");
+  //run every day at 8:00 AM the command "gif" in a specific channel:
+  cron.schedule("0 8 * * *", () => {
+    // if (commandName === "gif") {
+      const url = `https://tenor.googleapis.com/v2/search?q=bonjour&key=${process.env.TENOR_API_KEY}&limit=8`;
 
-  if (interaction.commandName === "gif") {
-    const url = `https://tenor.googleapis.com/v2/search?q=hello&key=${process.env.TENOR_API_KEY}&limit=8`;
-    https
-      .get(url, (response) => {
-        let data = "";
-        response.on("data", (chunk) => {
-          data += chunk;
+      https
+        .get(url, (response) => {
+          let data = "";
+
+          response.on("data", (chunk) => {
+            data += chunk;
+          });
+
+          response.on("end", () => {
+            const json = JSON.parse(data);
+            const index = Math.floor(Math.random() * json.results.length);
+
+            // Find the "général" channel in the guild (server)
+            const guild = interaction.guild;
+            const generalChannel = guild.channels.cache.find(
+              (channel) => channel.name === "général"
+            );
+
+            if (generalChannel instanceof TextChannel) {
+              generalChannel.send(json.results[index].url);
+            } else {
+              interaction.reply("I could not find the 'général' text channel.");
+            }
+          });
+        })
+        .on("error", (error) => {
+          console.error(error);
+          interaction.reply("An error occurred while fetching the GIF.");
         });
-        response.on("end", () => {
-          const json = JSON.parse(data);
-          const index = Math.floor(Math.random() * json.results.length)
-          interaction.reply(json.results[index].url);
-        });
-      })
-      .on("error", (error) => {
-        console.error(error);
-      });
-  }
+    // }
+  });
 });
 
 client.login(process.env.TOKEN);
