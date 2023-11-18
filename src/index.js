@@ -22,6 +22,7 @@ const client = new Client({
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
+  console.log("Fuseau horaire actuel :", process.env.TZ || new Date().toString());
 });
 
 client.on("messageCreate", (message) => {
