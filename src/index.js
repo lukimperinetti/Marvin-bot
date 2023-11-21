@@ -2,6 +2,7 @@ require("dotenv").config();
 const { Client, IntentsBitField, TextChannel } = require("discord.js");
 const https = require("https");
 const cron = require("node-cron");
+const moment = require("moment-timezone");
 
 /**
  * The bitfield representing the intents the client is using.
@@ -22,7 +23,10 @@ const client = new Client({
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
-  console.log("Fuseau horaire actuel :", process.env.TZ || new Date().toString());
+  console.log(
+    "Fuseau horaire actuel :",
+    process.env.TZ || new Date().toString()
+  );
 });
 
 client.on("messageCreate", (message) => {
@@ -36,8 +40,12 @@ client.on("interactionCreate", async (interaction) => {
   const { commandName } = interaction;
 
   //run every day at 8:00 AM the command "gif" in a specific channel:
-  cron.schedule("0 23 * * *", () => { // pour 8h en france ?
-    // if (commandName === "gif") {
+  cron.schedule("0 * * * *", () => {
+    // pour 8h en france ?
+    const time = moment().tz("Europe/Paris").format("HH:mm");
+    console.log("Running Cron Job at", time);
+    if (time === "21:20") {
+      // if (commandName === "gif") {
       const url = `https://tenor.googleapis.com/v2/search?q=bonjour&key=${process.env.TENOR_API_KEY}&limit=8`;
 
       https
@@ -69,7 +77,7 @@ client.on("interactionCreate", async (interaction) => {
           console.error(error);
           interaction.reply("An error occurred while fetching the GIF.");
         });
-    // }
+    }
   });
 });
 

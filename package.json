@@ -20,6 +20,7 @@
   "dependencies": {
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
+    "moment-timezone": "^0.5.43",
     "node-cron": "^3.0.2",
     "node-fetch": "^3.3.2"
   }
