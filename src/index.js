@@ -2,7 +2,8 @@ require("dotenv").config();
 const { Client, IntentsBitField, TextChannel } = require("discord.js");
 const https = require("https");
 const cron = require("node-cron");
-const moment = require("moment-timezone");
+const roleClaim = require("./role-claim");
+const { log } = require("console");
 
 /**
  * The bitfield representing the intents the client is using.
@@ -27,6 +28,8 @@ client.on("ready", () => {
     "Fuseau horaire actuel :",
     process.env.TZ || new Date().toString()
   );
+  roleClaim(client);
+  console.log("Role claim initialized.");
 });
 
 client.on("messageCreate", (message) => {
