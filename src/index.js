@@ -40,11 +40,9 @@ client.on("interactionCreate", async (interaction) => {
   const { commandName } = interaction;
 
   //run every day at 8:00 AM the command "gif" in a specific channel:
-  cron.schedule("0 * * * *", () => {
-    // pour 8h en france ?
-    const time = moment().tz("Europe/Paris").format("HH:mm");
-    console.log("Running Cron Job at", time);
-    if (time === "21:20") {
+  cron.schedule(
+    "0 8 * * *",
+    () => {
       // if (commandName === "gif") {
       const url = `https://tenor.googleapis.com/v2/search?q=bonjour&key=${process.env.TENOR_API_KEY}&limit=8`;
 
@@ -77,8 +75,12 @@ client.on("interactionCreate", async (interaction) => {
           console.error(error);
           interaction.reply("An error occurred while fetching the GIF.");
         });
+    },
+    {
+      scheduled: true,
+      timezone: "America/Sao_Paulo",
     }
-  });
+  );
 });
 
 client.login(process.env.TOKEN);
