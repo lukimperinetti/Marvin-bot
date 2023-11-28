@@ -79,17 +79,24 @@ module.exports = (client) => {
   firstMessage(channel, text, reactions);
 
   client.on("messageReactionAdd", (reaction, user) => {
-    console.log('toto');
-    if (reaction.message.channel.id === channel.id) {
-      handleReaction(reaction, user, true);
-      console.log("Reaction added:", reaction.emoji.name, user.username);
+    try {
+      if (reaction.message.channel.id === channel.id) {
+        handleReaction(reaction, user, true);
+        console.log("Reaction added:", reaction.emoji.name, user.username);
+      }
+    } catch (error) {
+      console.error("Error in messageReactionAdd event:", error);
     }
   });
 
   client.on("messageReactionRemove", (reaction, user) => {
-    if (reaction.message.channel.id === channel.id) {
-      handleReaction(reaction, user, false);
-      console.log("Reaction removed:", reaction.emoji.name, user.username);
+    try {
+      if (reaction.message.channel.id === channel.id) {
+        handleReaction(reaction, user, false);
+        console.log("Reaction removed:", reaction.emoji.name, user.username);
+      }
+    } catch (error) {
+      console.error("Error in messageReactionRemove event:", error);
     }
   });
 };
