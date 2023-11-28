@@ -43,7 +43,7 @@ client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
   const { commandName } = interaction;
 
-  //run every day at 8:00 AM the command "gif" in a specific channel:
+  // run every day at 8:00 AM in the "Europe/Paris" timezone
   cron.schedule(
     "0 8 * * *",
     () => {
@@ -82,7 +82,7 @@ client.on("interactionCreate", async (interaction) => {
     },
     {
       scheduled: true,
-      timezone: "America/Sao_Paulo",
+      timezone: "Europe/Paris",
     }
   );
 });

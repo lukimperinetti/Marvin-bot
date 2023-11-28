@@ -5,10 +5,10 @@ const ROLE_CHANNEL_ID = "1176266826515239023";
 //'1175077693918818355';
 
 const emojis = {
-  // emojiName: 'roleID'
+  // emojiName: 'roleName : Emoji ok'
   // mc_diamond: '1175078347550769232',
   // shield: '1172451982317985835'
-  alert: "alert",
+  alert: "🎮︙alert",
   twitter: "nouveau rôle",
 };
 
@@ -19,20 +19,12 @@ const emojis = {
  * @param {Boolean} add
  */
 const handleReaction = (reaction, user, add) => {
-  console.log("Reaction handled:", reaction.emoji.name, user.username);
-
   const { guild } = reaction.message;
   const roleName = emojis[reaction.emoji.name];
 
-  console.log("Role Name:", roleName);
-
   const role = guild.roles.cache.find((role) => role.name === roleName);
 
-  console.log("Role:", role);
-
   const member = guild.members.cache.find((member) => member.id === user.id);
-
-  console.log("Member:", member);
 
   if (add) {
     member.roles
