@@ -2,7 +2,8 @@ require("dotenv").config();
 const { Client, IntentsBitField, TextChannel } = require("discord.js");
 const https = require("https");
 const cron = require("node-cron");
-const moment = require("moment-timezone");
+const roleClaim = require("./role-claim");
+const { log } = require("console");
 
 /**
  * The bitfield representing the intents the client is using.
@@ -18,6 +19,7 @@ const client = new Client({
     IntentsBitField.Flags.GuildMembers,
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildMessageReactions,
   ],
 });
 
@@ -27,6 +29,8 @@ client.on("ready", () => {
     "Fuseau horaire actuel :",
     process.env.TZ || new Date().toString()
   );
+  roleClaim(client);
+  console.log("Role claim initialized.");
 });
 
 client.on("messageCreate", (message) => {
@@ -35,52 +39,54 @@ client.on("messageCreate", (message) => {
   }
 });
 
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
-  const { commandName } = interaction;
+// @TODO: fix this
 
-  //run every day at 8:00 AM the command "gif" in a specific channel:
-  cron.schedule(
-    "0 8 * * *",
-    () => {
-      // if (commandName === "gif") {
-      const url = `https://tenor.googleapis.com/v2/search?q=bonjour&key=${process.env.TENOR_API_KEY}&limit=8`;
+// client.on("interactionCreate", async (interaction) => {
+//   if (!interaction.isCommand()) return;
+//   const { commandName } = interaction;
 
-      https
-        .get(url, (response) => {
-          let data = "";
+//   // run every day at 8:00 AM in the "Europe/Paris" timezone
+//   cron.schedule(
+//     "0 8 * * *",
+//     () => {
+//       // if (commandName === "gif") {
+//       const url = `https://tenor.googleapis.com/v2/search?q=bonjour&key=${process.env.TENOR_API_KEY}&limit=8`;
 
-          response.on("data", (chunk) => {
-            data += chunk;
-          });
+//       https
+//         .get(url, (response) => {
+//           let data = "";
 
-          response.on("end", () => {
-            const json = JSON.parse(data);
-            const index = Math.floor(Math.random() * json.results.length);
+//           response.on("data", (chunk) => {
+//             data += chunk;
+//           });
 
-            // Find the "général" channel in the guild (server)
-            const guild = interaction.guild;
-            const generalChannel = guild.channels.cache.find(
-              (channel) => channel.name === "général"
-            );
+//           response.on("end", () => {
+//             const json = JSON.parse(data);
+//             const index = Math.floor(Math.random() * json.results.length);
 
-            if (generalChannel instanceof TextChannel) {
-              generalChannel.send(json.results[index].url);
-            } else {
-              interaction.reply("I could not find the 'général' text channel.");
-            }
-          });
-        })
-        .on("error", (error) => {
-          console.error(error);
-          interaction.reply("An error occurred while fetching the GIF.");
-        });
-    },
-    {
-      scheduled: true,
-      timezone: "America/Sao_Paulo",
-    }
-  );
-});
+//             // Find the "général" channel in the guild (server)
+//             const guild = interaction.guild;
+//             const generalChannel = guild.channels.cache.find(
+//               (channel) => channel.name === "général"
+//             );
+
+//             if (generalChannel instanceof TextChannel) {
+//               generalChannel.send(json.results[index].url);
+//             } else {
+//               interaction.reply("I could not find the 'général' text channel.");
+//             }
+//           });
+//         })
+//         .on("error", (error) => {
+//           console.error(error);
+//           interaction.reply("An error occurred while fetching the GIF.");
+//         });
+//     },
+//     {
+//       scheduled: true,
+//       timezone: "Europe/Paris",
+//     }
+//   );
+// });
 
 client.login(process.env.TOKEN);
