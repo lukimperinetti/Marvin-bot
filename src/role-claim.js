@@ -1,15 +1,20 @@
 const { Client, MessageReaction, User } = require("discord.js");
 const firstMessage = require("./first-message");
 
-const ROLE_CHANNEL_ID = "1176266826515239023";
-//'1175077693918818355';
+const ROLE_CHANNEL_ID = "1175077693918818355";
+//'1175077693918818355'; -- discord promo
+//1176266826515239023 --discord debug Luk
 
 const emojis = {
   // emojiName: 'roleName : Emoji ok'
-  // mc_diamond: '1175078347550769232',
-  // shield: '1172451982317985835'
-  alert: "🎮︙alert",
-  twitter: "nouveau rôle",
+  mc_diamond: '💎 Minecraft 💎',
+  Anonymous_Hacker: '🛡️ Cybersec 🛡️',
+  VR: '🥽 XR 🥽',
+  Robot_icon: '🦾 IA 🦾',
+  manager: '🧑‍💼 Management 🧑‍💼',
+  harddrive: '💽 Big Data 💽',
+  aesthetic_cloud: '☁️ Cloud ☁️',
+  arduino: '🕹️ IoT 🕹️'
 };
 
 /**
@@ -59,7 +64,7 @@ module.exports = (client) => {
     client.emojis.cache.find((emoji) => emoji.name === emojiName);
   const reactions = [];
 
-  let text = "Choisissez vos rôles :\n\n";
+  let text = "Choisissez vos parcours / jeux en utilisant les emojis : \n\n";
 
   for (const key in emojis) {
     const emoji = getEmoji(key);
