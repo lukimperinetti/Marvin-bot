@@ -1,13 +1,16 @@
 require("dotenv").config();
 const { REST, Routes, ApplicationCommandOptionType } = require("discord.js");
 
+/**
+ * Array of command objects.
+ * @type {Array<Object>}
+ */
 const commands = [
   {
     name: "gif",
     description: "Add gif",
   },
 ];
-
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
